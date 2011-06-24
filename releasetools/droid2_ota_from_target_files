@@ -378,6 +378,9 @@ def WriteFullOTAPackage(input_zip, output_zip):
 
   script.RunVerifyCachePartitionSize()
 
+  script.Mount("/data")
+  script.RunFinalReleaseUtils()
+
   script.ShowProgress(0.2, 10)
 
   script.ShowProgress(0.1, 0)
