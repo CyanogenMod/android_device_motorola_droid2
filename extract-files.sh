@@ -248,7 +248,6 @@ adb pull /system/lib/libVendor_ti_omx_config_parser.so ../../../vendor/motorola/
 adb pull /system/lib/libstagefright.so ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/etc/01_Vendor_ti_omx.cfg ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/etc/cameraCalFileDef.bin ../../../vendor/motorola/$DEVICE/proprietary
-adb pull /system/app/Usb.apk ../../../vendor/motorola/$DEVICE/proprietary
 adb pull /system/etc/media_profiles.xml ../../../vendor/motorola/$DEVICE/proprietary
 
 (cat << EOF) | sed s/__DEVICE__/$DEVICE/g > ../../../vendor/motorola/$DEVICE/$DEVICE-vendor-blobs.mk
@@ -514,7 +513,6 @@ PRODUCT_COPY_FILES += \\
     vendor/motorola/__DEVICE__/proprietary/libVendor_ti_omx_config_parser.so:/system/lib/libVendor_ti_omx_config_parser.so \\
     vendor/motorola/__DEVICE__/proprietary/libstagefright.so:/system/lib/libstagefright.so \\
     vendor/motorola/__DEVICE__/proprietary/01_Vendor_ti_omx.cfg:/system/etc/01_Vendor_ti_omx.cfg \\
-    vendor/motorola/__DEVICE__/proprietary/Usb.apk:/system/app/Usb.apk \\
     vendor/motorola/__DEVICE__/proprietary/cameraCalFileDef.bin:/system/etc/cameraCalFileDef.bin
 
 EOF

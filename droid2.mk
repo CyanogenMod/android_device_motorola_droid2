@@ -119,6 +119,7 @@ PRODUCT_PACKAGES += \
     libOMX.TI.Video.encoder \
     libVendor_ti_omx \
     gps.droid2 \
+    Usb \
     libaudiopolicy
 
 #We don't need these packages these we are -for now- in the prop files
