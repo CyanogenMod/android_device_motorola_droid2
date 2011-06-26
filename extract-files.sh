@@ -509,7 +509,7 @@ PRODUCT_COPY_FILES += \\
     vendor/motorola/__DEVICE__/proprietary/sensors.droid2.so:/system/lib/hw/sensors.droid2.so \\
     vendor/motorola/__DEVICE__/proprietary/lights.droid2.so:/system/lib/hw/lights.droid2.so \\
     vendor/motorola/__DEVICE__/proprietary/qwerty.kl:/system/usr/keylayout/qwerty.kl \\
-    vendor/motorola/__DEVICE__/proprietary/libaudio.so:/system/lib/libaudio.so
+    vendor/motorola/__DEVICE__/proprietary/libaudio.so:/system/lib/libaudio.so \\
     vendor/motorola/__DEVICE__/proprietary/libVendor_ti_omx.so:/system/lib/libVendor_ti_omx.so \\
     vendor/motorola/__DEVICE__/proprietary/libVendor_ti_omx_config_parser.so:/system/lib/libVendor_ti_omx_config_parser.so \\
     vendor/motorola/__DEVICE__/proprietary/libstagefright.so:/system/lib/libstagefright.so \\
