@@ -23,6 +23,9 @@ ro.min_pointer_dur=10
 ro.ngp_available=1
 ro.modem_available=0
 
+# Device gets 1% battery from charge_counter
+ro.product.use_charge_counter=1
+
 # Default network type.
 # 4 => CDMA / EVDO.
 ro.telephony.default_network=4
