@@ -142,7 +142,6 @@ hijack_log("  Executing log dumper script:");
 hijack_log("    exec(\"%s %s\") executing...", LOG_DUMP_BINARY, LOG_PATH);
     result = exec_and_wait(log_dump_args);
 hijack_log("      returned: %d", result);
-
 #endif
 
     // check to see if hijack was already run, and if so, just continue on.
@@ -319,8 +318,11 @@ hijack_log("      returned: %d", result);
         }
     }
 
+    char hijacked_executable_fullpath[PATH_MAX];
+    readlink("/proc/self/exe", hijacked_executable_fullpath, sizeof(hijacked_executable_fullpath));
+
     char real_executable[PATH_MAX];
-    sprintf(real_executable, "%s.bin", hijacked_executable);
+    sprintf(real_executable, "%s/%s.bin", dirname(hijacked_executable_fullpath), basename(hijacked_executable));
     char ** argp = (char **)malloc(sizeof(char *) * (argc + 1));
     for (i = 0; i < argc; i++) {
         argp[i]=argv[i];
