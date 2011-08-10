@@ -31,7 +31,6 @@ USE_CAMERA_STUB := false
 
 # use pre-kernel.35 vold usb mounting
 BOARD_USE_USB_MASS_STORAGE_SWITCH := true
-BOARD_USE_FROYO_LIBCAMERA := true
 
 TARGET_BOARD_PLATFORM := omap3
 
@@ -44,6 +43,9 @@ TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a8
 # this is so that we build the Shadow/Droid2-specific hardware shit
 BOARD_GLOBAL_CFLAGS += -DDROID2_HARDWARE
 DROID2_HARDWARE := true
+
+# Include support for alt-lock and voice keys
+BOARD_GLOBAL_CFLAGS += -DDROID2_KEYPAD
 
 TARGET_NO_BOOTLOADER := false
 TARGET_BOOTLOADER_BOARD_NAME := droid2
@@ -98,6 +100,12 @@ TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := device/motorola/droid2/releasetools
 
 # Droid2 requires the common boot hijack
 TARGET_NEEDS_MOTOROLA_HIJACK := true
+
+# MOTOROLA
+USE_MOTOROLA_CODE := true
+COMMON_GLOBAL_CFLAGS += -DUSE_MOTOROLA_CODE
+USE_MOTOROLA_USERS := true
+COMMON_GLOBAL_CFLAGS += -DUSE_MOTOROLA_USERS -DMOTOROLA_UIDS
 
 TARGET_RECOVERY_PRE_COMMAND := "echo 1 > /data/.recovery_mode; sync;"
 TARGET_RECOVERY_PRE_COMMAND_CLEAR_REASON := true

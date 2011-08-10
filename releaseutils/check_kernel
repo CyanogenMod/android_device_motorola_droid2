@@ -1,0 +1,9 @@
+#!/sbin/sh
+
+EXPECTED_KERNEL_VER="Linux localhost 2.6.32.9-gca08d89 #1 PREEMPT Tue Jul 19 22:10:06 IST 2011 armv7l GNU/Linux"
+
+if [ "$(uname -a)" == "${EXPECTED_KERNEL_VER}" ] ; then
+	exit 0
+else
+	exit 1
+fi

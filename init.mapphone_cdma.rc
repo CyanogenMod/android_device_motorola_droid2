@@ -122,11 +122,11 @@ on post-fs
     chmod 2770 /data/tpapi/etc
     chmod 2770 /data/tpapi/etc/tpa
     chmod 2770 /data/tpapi/etc/tpa/persistent
-    chown system system /pds/security
-    chown system system /data/tpapi
-    chown system system /data/tpapi/etc
-    chown system system /data/tpapi/etc/tpa
-    chown system system /data/tpapi/etc/tpa/persistent
+    chown mot_tpapi mot_tpapi /pds/security
+    chown mot_tpapi mot_tpapi /data/tpapi
+    chown mot_tpapi mot_tpapi /data/tpapi/etc
+    chown mot_tpapi mot_tpapi /data/tpapi/etc/tpa
+    chown mot_tpapi mot_tpapi /data/tpapi/etc/tpa/persistent
 
     # directory for encryption management tool, enc_mgt_tool
     mkdir /data/emt
@@ -224,6 +224,10 @@ on boot
     chmod 0666 /sys/class/leds/torch-flash/brightness
     chmod 0666 /sys/class/leds/torch-flash/flash_light
 
+# Camera related
+    chmod 0660 /dev/hplens-omap
+    chown media camera /dev/hplens-omap
+
 # Enable panic on softlockup
     write /proc/sys/kernel/softlockup_panic 1
 
@@ -291,9 +295,9 @@ service usbd /system/bin/usbd
     group system
 
 service battd /system/bin/battd
-    socket battdsock stream 0660 root mount
+    socket battdsock stream 0660 mot_accy mot_accy
     user root
-    group system mount
+    group mot_accy mot_pwric
     oneshot
 
 service catcommands /system/bin/catcommands
@@ -352,13 +356,13 @@ service map /system/bin/sdptool add --channel=20 --network=2 MAP
     oneshot
 
 service tcmd /system/bin/tcmd
-    group radio input system log camera graphics sdcard_rw audio inet bluetooth wifi compass net_bt_admin mount net_raw net_admin
-    socket local_tcmd stream 0660 system system
-    socket batch_socket stream 0600 system system
+    group mot_tcmd radio mot_pwric input system log camera graphics mot_accy sdcard_rw audio inet bluetooth wifi compass net_bt_admin mot_tombstone mot_tpapi mount net_raw net_admin
+    socket local_tcmd stream 0660 mot_tcmd mot_tcmd
+    socket batch_socket stream 0600 mot_tcmd mot_tcmd
     oneshot
 
 service tcmdhelp /system/bin/tcmdhelp
-    socket tcmdhelp stream 0600 system system
+    socket tcmdhelp stream 0600 mot_tcmd mot_tcmd
     oneshot
     disabled
 
@@ -408,7 +412,7 @@ service btautoip /system/bin/dhcpcd -BK bnep0
 service baseimage /system/bin/dspexec -v -T /system/lib/dsp/baseimage.dof
     class media_early_init
     user media
-    group media graphics
+    group media graphics mot_whisper audio
     oneshot
 
 service pvrsrv /system/bin/pvrsrvinit
@@ -459,7 +463,8 @@ service aplogd /system/bin/aplogd
 
 service fmradio /system/bin/fmradioserver
     disabled
-    group bluetooth
+    user system
+    group bluetooth net_bt_admin net_raw net_admin misc
 
 service ftmipcd /system/bin/ftmipcd
     user radio

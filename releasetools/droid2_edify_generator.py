@@ -100,6 +100,11 @@ class EdifyGenerator(object):
                          for b in bootloaders]) +
            ");")
     self.script.append(self._WordWrap(cmd))
+  
+  def AssertKernelVersion(self):
+    self.script.append('package_extract_file("system/etc/check_kernel", "/tmp/check_kernel");')
+    self.script.append('set_perm(0, 0, 0777, "/tmp/check_kernel");')
+    self.script.append('assert(run_program("/tmp/check_kernel") == 0);');
 
   def RunBackup(self, command):
     self.script.append('package_extract_file("system/bin/backuptool.sh", "/tmp/backuptool.sh");')

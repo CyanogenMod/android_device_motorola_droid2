@@ -346,6 +346,14 @@ def WriteFullOTAPackage(input_zip, output_zip):
 #    ts = GetBuildProp("ro.build.date.utc", input_zip)
 #    script.AssertOlderBuild(ts)
 
+# kernel check...
+  script.Print(" Checking Kernel Version...  ")
+  script.Print(" If install aborts here make ")
+  script.Print(" sure you are on the OTA and ")
+  script.Print(" not the original GB Leak! ")
+  script.Print("  ")
+  script.AssertKernelVersion()
+
 #  AppendAssertions(script, input_zip)
 #  device_specific.FullOTA_Assertions()
   if OPTIONS.backuptool:
@@ -358,13 +366,20 @@ def WriteFullOTAPackage(input_zip, output_zip):
 
   CopyUtilityFiles(input_zip, output_zip)
 
+  script.Print(" Formatting /system... ")
   script.RunFormatAndTuneSystem()
-  script.Mount("/system")
-  script.UnpackPackageDir("system", "/system")
 
+  script.Print(" Mounting /system... ")
+  script.Mount("/system")
+
+  script.Print(" Installing /system... ")
+  script.UnpackPackageDir("system", "/system")
   symlinks = CopySystemFiles(input_zip, output_zip)
+
+  script.Print(" Creating Symlinks... ")
   script.MakeSymlinks(symlinks)
 
+  script.Print(" Setting Permissions... ")
   Item.GetMetadata(input_zip)
   Item.Get("system").SetPermissions(script)
 
@@ -378,6 +393,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
 
   script.RunVerifyCachePartitionSize()
 
+  script.Print(" Finishing Installation... ")
   script.Mount("/data")
   script.RunFinalReleaseUtils()
 
