@@ -162,11 +162,8 @@ PRODUCT_COPY_FILES += \
 
 $(call inherit-product-if-exists, vendor/motorola/droid2/droid2-vendor.mk)
 
-# media profiles and capabilities spec
-# $(call inherit-product, device/motorola/droid2/media_a1026.mk)
-
-# stuff common to all HTC phones
-#$(call inherit-product, device/htc/common/common.mk)
+# stuff common to all Motorola phones
+$(call inherit-product, device/motorola/common/common_hijack.mk)
 
 $(call inherit-product, build/target/product/full_base.mk)
 
