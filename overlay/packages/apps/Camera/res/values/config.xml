@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="touchFocusParameter">mot-areas-to-focus</string>
+    <bool name="touchFocusNeedsRect">true</bool>
+</resources>
+
