@@ -119,7 +119,9 @@ PRODUCT_PACKAGES += \
     libVendor_ti_omx \
     gps.droid2 \
     Usb \
-    libaudiopolicy
+    libaudiopolicy \
+    mot_boot_mode \
+    charge_only_mode
 
 #We don't need these packages these we are -for now- in the prop files
 #    sensors.droid2 \
