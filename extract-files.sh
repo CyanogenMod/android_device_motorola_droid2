@@ -130,7 +130,6 @@ adb pull /system/lib/egl/libgles1_texture_stream.so ../../../vendor/motorola/$DE
 adb pull /system/lib/egl/libgles2_texture_stream.so ../../../vendor/motorola/$DEVICE/proprietary/lib/egl
 
 adb pull /system/lib/hw/gralloc.omap3.so ../../../vendor/motorola/$DEVICE/proprietary/lib/hw
-adb pull /system/lib/hw/sensors.droid2.so ../../../vendor/motorola/$DEVICE/proprietary/lib/hw
 adb pull /system/lib/hw/gps.droid2.so ../../../vendor/motorola/$DEVICE/proprietary/lib/hw
 adb pull /system/lib/hw/overlay.omap3.so ../../../vendor/motorola/$DEVICE/proprietary/lib/hw
 
@@ -441,7 +440,6 @@ PRODUCT_COPY_FILES += \\
     vendor/motorola/__DEVICE__/proprietary/lib/libbattd.so:/system/lib/libattd.so \\
     vendor/motorola/__DEVICE__/proprietary/bin/battd.so:/system/bin/battd \\
     vendor/motorola/__DEVICE__/proprietary/lib/libusc.so:/system/lib/libusc.so \\
-    vendor/motorola/__DEVICE__/proprietary/lib/hw/sensors.droid2.so:/system/lib/hw/sensors.droid2.so \\
     vendor/motorola/__DEVICE__/proprietary/lib/hw/gps.droid2.so:/system/lib/hw/gps.droid2.so \\
     vendor/motorola/__DEVICE__/proprietary/lib/hw/overlay.omap3.so:/system/lib/hw/overlay.omap3.so
 

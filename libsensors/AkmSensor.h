@@ -39,7 +39,6 @@ public:
     enum {
         MagneticField   = 0,
         Orientation     = 1,
-        Temperature     = 2,
         numSensors
     };
 

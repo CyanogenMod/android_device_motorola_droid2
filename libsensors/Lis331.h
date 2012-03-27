@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef ANDROID_KXTF9_SENSOR_H
-#define ANDROID_KXTF9_SENSOR_H
+#ifndef ANDROID_LIS_SENSOR_H
+#define ANDROID_LIS_SENSOR_H
 
 #include <stdint.h>
 #include <errno.h>
@@ -31,15 +31,17 @@
 
 struct input_event;
 
-class Kxtf9Sensor : public SensorBase {
+class LisSensor : public SensorBase {
 public:
-            Kxtf9Sensor();
-    virtual ~Kxtf9Sensor();
+            LisSensor();
+    virtual ~LisSensor();
 
     virtual int setDelay(int32_t handle, int64_t ns);
     virtual int enable(int32_t handle, int enabled);
     virtual int readEvents(sensors_event_t* data, int count);
     void processEvent(int code, int value);
+
+    int setInitialState();
 
 private:
     uint32_t mEnabled;
@@ -49,4 +51,4 @@ private:
 
 /*****************************************************************************/
 
-#endif  // ANDROID_KXTF9_SENSOR_H
+#endif  // ANDROID_AKM_SENSOR_H

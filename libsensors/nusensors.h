@@ -42,7 +42,6 @@ int init_nusensors(hw_module_t const* module, hw_device_t** device);
 #define ID_O  (2)
 #define ID_P  (3)
 #define ID_L  (4)
-#define ID_T  (5)
 
 /*****************************************************************************/
 
@@ -59,12 +58,12 @@ int init_nusensors(hw_module_t const* module, hw_device_t** device);
 #define AKM_DEVICE_NAME     "/dev/akm8973_aot"
 #define CM_DEVICE_NAME      "/dev/sfh7743"
 #define LS_DEVICE_NAME      "/dev"
-#define KXTF9_DEVICE_NAME     "/dev/kxtf9"
+#define LIS_DEVICE_NAME     "/dev/lis331dlh"
 
 #define EVENT_TYPE_ACCEL_X          ABS_X
 #define EVENT_TYPE_ACCEL_Y          ABS_Y
 #define EVENT_TYPE_ACCEL_Z          ABS_Z
-#define EVENT_TYPE_ACCEL_STATUS     ABS_MISC
+#define EVENT_TYPE_ACCEL_STATUS     ABS_WHEEL
 
 #define EVENT_TYPE_YAW              ABS_RX
 #define EVENT_TYPE_PITCH            ABS_RY
@@ -101,8 +100,6 @@ int init_nusensors(hw_module_t const* module, hw_device_t** device);
 #define CONVERT_O_Y                 (CONVERT_O)
 #define CONVERT_O_P                 (CONVERT_O)
 #define CONVERT_O_R                 (-CONVERT_O)
-
-#define CONVERT_T                   (1.0f)
 
 #define SENSOR_STATE_MASK           (0x7FFF)
 

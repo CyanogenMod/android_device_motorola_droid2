@@ -22,16 +22,17 @@
 #include <dirent.h>
 #include <sys/select.h>
 
-#include <linux/kxtf9.h>
+#include <linux/lis331dlh.h>
 
 #include <cutils/log.h>
 
-#include "Kxtf9.h"
+#include "Lis331.h"
+
 
 /*****************************************************************************/
 
-Kxtf9Sensor::Kxtf9Sensor()
-: SensorBase(KXTF9_DEVICE_NAME, "accelerometer"),
+LisSensor::LisSensor()
+: SensorBase(LIS_DEVICE_NAME, "accelerometer"),
       mEnabled(0),
       mInputReader(32)
 {
@@ -42,11 +43,11 @@ Kxtf9Sensor::Kxtf9Sensor()
     mPendingEvent.acceleration.status = SENSOR_STATUS_ACCURACY_HIGH;
 
     struct input_absinfo absinfo;
-    int flags = 0;
+    unsigned long flags = 0;
 
     open_device();
 
-    if (!ioctl(dev_fd, KXTF9_IOCTL_GET_ENABLE, &flags)) {
+    if (!ioctl(dev_fd, LIS331DLH_IOCTL_GET_ENABLE, &flags)) {
         if(flags) {
             mEnabled = 1;
             if (!ioctl(data_fd, EVIOCGABS(EVENT_TYPE_ACCEL_X), &absinfo)) {
@@ -58,9 +59,6 @@ Kxtf9Sensor::Kxtf9Sensor()
             if (!ioctl(data_fd, EVIOCGABS(EVENT_TYPE_ACCEL_Z), &absinfo)) {
                 mPendingEvent.acceleration.z = absinfo.value * CONVERT_A_Z;
             }
-            if (!ioctl(data_fd, EVIOCGABS(EVENT_TYPE_ACCEL_STATUS), &absinfo)) {
-                mPendingEvent.acceleration.status = uint8_t(absinfo.value & SENSOR_STATE_MASK);
-            }
         }
     }
 
@@ -69,51 +67,49 @@ Kxtf9Sensor::Kxtf9Sensor()
     }
 }
 
-Kxtf9Sensor::~Kxtf9Sensor() {
+LisSensor::~LisSensor() {
 }
 
-int Kxtf9Sensor::enable(int32_t handle, int en)
+int LisSensor::enable(int32_t handle, int en)
 {
-    int newState  = en ? 1 : 0;
     int err = 0;
 
-    if(mEnabled != newState) {
-        if (!mEnabled) {
-            open_device();
-        }
+    if (!mEnabled) {
+        open_device();
+    }
 
-        int flags = newState;
-        err = ioctl(dev_fd, KXTF9_IOCTL_SET_ENABLE, &flags);
-        err = err<0 ? -errno : 0;
-        LOGE_IF(err, "KXTF9_IOCTL_SET_ENABLE failed (%s)", strerror(-err));
+    int newState = en ? 1 : 0;
+    unsigned long flags = newState;
+    err = ioctl(dev_fd, LIS331DLH_IOCTL_SET_ENABLE, &flags);
+    err = err < 0 ? -errno : 0;
 
-        if (!err) {
-            mEnabled = newState;
-            setDelay(0, 200000000);
-        }
+    LOGE_IF(err, "LIS331DLH_IOCTL_SET_ENABLE failed (%s)", strerror(-err));
 
-        if (!mEnabled) {
-            close_device();
-        }
+    if (!err) {
+        mEnabled = newState;
+        setDelay(0, 100000000); // 100ms by default for faster re-orienting
+    }
+    if (!mEnabled) {
+        close_device();
     }
     return err;
 }
 
-int Kxtf9Sensor::setDelay(int32_t handle, int64_t ns)
+int LisSensor::setDelay(int32_t handle, int64_t ns)
 {
     if (mEnabled) {
         if (ns < 0)
             return -EINVAL;
 
-        int delay = ns / 1000000;
-        if (ioctl(dev_fd, KXTF9_IOCTL_SET_DELAY, &delay)) {
+        unsigned long delay = ns / 1000000;
+        if (ioctl(dev_fd, LIS331DLH_IOCTL_SET_DELAY, &delay)) {
             return -errno;
         }
     }
     return 0;
 }
 
-int Kxtf9Sensor::readEvents(sensors_event_t* data, int count)
+int LisSensor::readEvents(sensors_event_t* data, int count)
 {
     if (count < 1)
         return -EINVAL;
@@ -135,7 +131,7 @@ int Kxtf9Sensor::readEvents(sensors_event_t* data, int count)
             count--;
             numEventReceived++;
         } else {
-            LOGE("Kxtf9Sensor: unknown event (type=%d, code=%d)",
+            LOGE("Lis331: unknown event (type=%d, code=%d)",
                     type, event->code);
         }
         mInputReader.next();
@@ -144,7 +140,7 @@ int Kxtf9Sensor::readEvents(sensors_event_t* data, int count)
     return numEventReceived;
 }
 
-void Kxtf9Sensor::processEvent(int code, int value)
+void LisSensor::processEvent(int code, int value)
 {
     switch (code) {
         case EVENT_TYPE_ACCEL_X:
@@ -155,10 +151,6 @@ void Kxtf9Sensor::processEvent(int code, int value)
             break;
         case EVENT_TYPE_ACCEL_Z:
             mPendingEvent.acceleration.z = value * CONVERT_A_Z;
-            break;
-        case EVENT_TYPE_ACCEL_STATUS:
-            mPendingEvent.acceleration.status =
-                    uint8_t(value & SENSOR_STATE_MASK);
             break;
     }
 }

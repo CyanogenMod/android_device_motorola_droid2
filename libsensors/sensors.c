@@ -15,7 +15,6 @@
  */
 
 #include <hardware/sensors.h>
-#include <sys/limits.h>
 
 #include "nusensors.h"
 
@@ -32,10 +31,10 @@
  */
 
 static const struct sensor_t sSensorList[] = {
-        { "KXTF9 3-axis Accelerometer",
-                "Kionix",
+        { "LIS331DLH 3-axis Accelerometer",
+                "ST Micro",
                 1, SENSORS_HANDLE_BASE+ID_A,
-                SENSOR_TYPE_ACCELEROMETER, 9.81f*4.0f, 9.81f/1000.0f, 0.25f, 0, { } },
+                SENSOR_TYPE_ACCELEROMETER, 4.0f*9.81f, (4.0f*9.81f)/256.0f, 0.2f, 0, { } },
         { "AK8973 3-axis Magnetic field sensor",
                 "Asahi Kasei",
                 1, SENSORS_HANDLE_BASE+ID_M,
@@ -43,21 +42,17 @@ static const struct sensor_t sSensorList[] = {
         { "AK8973 Orientation sensor",
                 "Asahi Kasei",
                 1, SENSORS_HANDLE_BASE+ID_O,
-                SENSOR_TYPE_ORIENTATION, 360.0f, 1.0f/64.0f, 7.05f, 0, { } },
+                SENSOR_TYPE_ORIENTATION, 360.0f, 1.0f, 7.0f, 0, { } },
         { "SFH7743 Proximity sensor",
                 "OSRAM Opto Semiconductors",
                 1, SENSORS_HANDLE_BASE+ID_P,
                 SENSOR_TYPE_PROXIMITY,
-                INT_MAX, INT_MAX,
-                0.045f, 0, { } },
+                6.0f, 6.0f,
+                0.5f, 0, { } },
         { "LM3530 Light sensor",
                 "National Semiconductor",
                 1, SENSORS_HANDLE_BASE+ID_L,
-                SENSOR_TYPE_LIGHT, 27000.0f, 1.0f, 0.0f, 0, { } },
-        { "AK8973 Temperature sensor",
-                "Asahi Kasei",
-                1, SENSORS_HANDLE_BASE+ID_T,
-                SENSOR_TYPE_TEMPERATURE, 115.0f, 1.6f, 3.0f, 0, { } },
+                SENSOR_TYPE_LIGHT, 27000.0f, 1.0f, 0.5f, 0, { } },
 };
 
 static int open_sensors(const struct hw_module_t* module, const char* name,
@@ -80,8 +75,8 @@ const struct sensors_module_t HAL_MODULE_INFO_SYM = {
         .version_major = 1,
         .version_minor = 0,
         .id = SENSORS_HARDWARE_MODULE_ID,
-        .name = "Motorola Shadow Sensors Module",
-        .author = "Austen Dicken",
+        .name = "Motorola Sholes Sensors Module",
+        .author = "Michael Webster",
         .methods = &sensors_module_methods,
     },
     .get_sensors_list = sensors__get_sensors_list
